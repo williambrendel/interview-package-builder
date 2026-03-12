@@ -20,6 +20,7 @@ const upload = multer({
 });
 const { MarkItDown } = require("markitdown-ts");
 const run = require("../core/llms/claude");
+const printStatistics = require("../core/llms/printStatistics");
 const { HAIKU45_CONFIG, SONNET45_CONFIG, temperature } = require("../core/llms/claude/config");
 
 const PROMPT = fs.readFile(path.join(__dirname, "../prompts/create-resume.xml"), "utf-8");
@@ -150,6 +151,9 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
 
     // run llm.
     const response = await run(CONFIG, { data: prompt, enableCache: true }, ...files);
+
+    // Print statistics.
+    printStatistics(response);
 
     // Parse response.
     output = parseResponseJson(response.output.text);
