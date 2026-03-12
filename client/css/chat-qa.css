@@ -542,8 +542,8 @@
 
   .chat-qa .liquid-glass.contact-us:hover img,
   .chat-qa .contact-us:hover img {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 4px;
+    margin-bottom: -4px;
   }
 }
 
