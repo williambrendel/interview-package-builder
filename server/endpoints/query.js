@@ -111,7 +111,7 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
             file_extension: ext 
           });
           (file.data = converted.markdown.toString("utf-8")) && ++j;
-          console.log("converted:", file.data);
+          // console.log("converted:", file.data);
           break;
         default:
       }
@@ -157,7 +157,7 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
 
     // Parse response.
     output = parseResponseJson(response.output.text);
-    console.log(output);
+    // console.log(output);
 
   } catch (error) {
     res.status(BAD_REQUEST).json({ error, query: q, files: files.map(f => f.name) });
