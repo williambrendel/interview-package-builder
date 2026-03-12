@@ -39,7 +39,7 @@
  * content.appendChild(createContactUs(3));
  */
 export const createContactUs = id => {
-  id === undefined && (id = Math.round(Math.random() * 6));
+  id === undefined && (id = Math.round(Math.random() * 7));
   const html = document.createElement("button");
   html.setAttribute("class", "liquid-glass contact-us");
   html.appendChild(document.createElement("img")).setAttribute("src", `../assets/expert-${id}.png`);

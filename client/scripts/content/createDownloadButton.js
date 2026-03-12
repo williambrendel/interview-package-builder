@@ -50,12 +50,14 @@ export const createDownloadButton = (md, filename) => {
   elmt.textContent = "Download";
   elmt.setAttribute("class", "liquid-glass download");
   elmt.onclick = async event => {
+    const target = event.target;
+
     event.stopPropagation();
     event.preventDefault();
 
     try {
-      elmt.textContent = "Downloading...";
-      elmt.disabled = true;
+      target.textContent = "Downloading...";
+      target.disabled = true;
 
       const response = await fetch(API.convertUrl, {
         method: "POST",
@@ -76,8 +78,8 @@ export const createDownloadButton = (md, filename) => {
     } catch (error) {
       console.error(error);
     } finally {
-      elmt.textContent = "Download";
-      elmt.disabled = false;
+      target.textContent = "Download";
+      target.disabled = false;
     }
   };
 

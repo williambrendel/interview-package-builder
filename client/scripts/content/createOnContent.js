@@ -4,6 +4,7 @@ import { instantDisplay } from "../progressiveDisplay.js";
 import { GLOBALS } from "../globals.js";
 import { safeMdToHtml } from "./safeMdToHtml.js";
 import { DOM } from "../cachedDomReferences.js";
+import { createDownloadButton } from "./createDownloadButton.js";
 
 // Destructure DOM elements.
 const { content } = DOM;
