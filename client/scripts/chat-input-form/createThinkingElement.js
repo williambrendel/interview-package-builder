@@ -62,6 +62,10 @@ export const createThinkingElement = (text = "Thinking…", reuseNode = true) =>
   }, 15000));
 
   timers.push(setTimeout(() => {
+    label.textContent = "This may take a minute…literally";
+  }, 22000));
+
+  timers.push(setTimeout(() => {
     label.textContent = "Worth the wait…";
   }, 30000));
 
