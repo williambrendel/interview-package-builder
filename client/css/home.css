@@ -1,0 +1,23 @@
+/* Import base styles and variables from common.css and others */
+@import "./common.css";
+@import "./chat-input.css";
+@import "./chat-content.css";
+
+/* 
+ * =====================================================
+ * Body Layout
+ * =====================================================
+ * Establishes the main flexbox layout for content
+ */
+body {
+  display: flex;              /* Horizontal layout: content */
+  flex-direction: column;     /* Stack nav and main vertically */
+  align-items: center;
+  background: var(--background);
+  
+  /* -------------------- Padding with Safe Areas -------------------- */
+  padding: var(--safearea);
+  padding-top: var(--safearea-padding-top);
+  padding-bottom: var(--safearea-padding-bottom);
+  overflow: hidden;
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <!-- Document title -->
+    <title>Land It</title>
+
+    <!-- Default meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
+    <!-- Apple: Transparent Mode notch color -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Android/Chrome: Dark Mode notch color -->
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+    <!-- Android/Chrome: Light Mode notch color -->
+    <meta name="theme-color" content="#E4E6E7" media="(prefers-color-scheme: light)">
+
+    <!-- Fonts -->
+    <!-- Preconnect to Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload fonts asynchronously to improve initial page load -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <!-- Fallback for browsers with JavaScript disabled -->
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet"
+        type="text/css"
+      />
+    </noscript>
+
+    <!-- Favicon -->
+    <link href="../assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <!-- Other links, like styles -->
+    <link href="../css/home.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" rel="stylesheet">
+    
+    <!-- KaTeX library for math rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+    <!-- Markdown to HTML converter -->
+    <script src="../scripts/mdToHtml.min.js"></script>
+
+    <!-- Page script -->
+    <script src="../scripts/home.js" type="module" defer></script>
+    
+  </head>
+  <body loading>
+    <!-- Main content area where chat messages will be displayed -->
+    <main id="content" welcome>
+      
+    </main>
+    <div id="chat-input-container">
+      <!-- Left chat menu -->
+      <div id="chat-menu" class="liquid-glass">
+        <a id="chat-menu-call-us" class="button" title="Click to call us" href="tel:+19254700491">
+          +1 (925) 4700-491
+          <img src="../assets/icons/phone-full.svg"/>
+        </a>
+        <a id="chat-menu-text-us" class="button" title="Click to send us a text message" href="sms:+19254700491?body=Hi%20Grant%20%F0%9F%91%8B%2C%20I'm%20a%20customer%20of%20Nereus%2C%20I%20need%20help!">
+          Send us a text message
+          <img src="../assets/icons/sms.svg"/>
+        </a>
+        <a id="chat-menu-email-us" class="button" title="Click to email" href="mailto:grant@yourwaterdr.com?subject=Help%20needed%20[Nereus%20%F0%9F%94%B1
+]&body=Hi%20Grant%20%F0%9F%91%8B%2C%20I'm%20a%20customer%20of%20Nereus%2C%20I%20need%20help!">
+          Email us
+          <img src="../assets/icons/email.svg"/>
+        </a>
+      </div>
+      <!-- User input form -->
+      <form id="chat-input-form" class="liquid-glass">
+        <!-- File attachment preview area -->
+        <div id="chat-files"></div>
+
+        <!-- Left-side input actions (attachments, options) -->
+        <div id="chat-input-left-buttons">
+          <button id="chat-menu-button" type="button" title="Click to contact us">
+            <img src="../assets/icons/plus.svg"/>
+          </button>
+        </div>
+
+        <!-- Main chat textarea -->
+        <textarea
+          id="chat-input"
+          placeholder="Bio and job description here…"
+          rows="1"
+          inputmode="search"
+          enterkeyhint="search"
+        ></textarea>
+
+        <!-- Right-side input actions (send, voice, etc.) -->
+        <div id="chat-input-right-buttons">
+          <button id="send" class="liquid-glass" title="Send your question">
+            <img src="../assets/icons/arrow-up.svg">
+          </button>
+          <button id="stop" class="liquid-glass" type="button" title="Click to stop thinking">
+            <div></div>
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- File drop overlay -->
+    <dialog id="drop-overlay" class="overlay">
+      <img src="../assets/icons/cloud.svg" alt="Upload" />
+      <p>Drop files to upload</p>
+    </dialog>
+    <!-- Additional svg styles for liquid glass css class -->
+    <svg style="display: none;">
+      <filter id="liquid-glass-distortion" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+        <!-- feTurbulence creates a noise pattern for the distortion -->
+        <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" seed="0" result="turbulence" />
+        <!-- feDisplacementMap uses the noise pattern to warp the image beneath -->
+        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+  </body>
+</html>

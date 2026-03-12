@@ -1,0 +1,340 @@
+/* Import base styles and variables from common.css */
+@import "./common.css";
+
+/* 
+ * =====================================================
+ * USER CHAT INPUT
+ * =====================================================
+ * Where the user input the query
+ */
+#chat-input-container {
+  flex-shrink: 0;
+  position: relative;
+  width: var(--main-width);
+  max-width: var(--main-max-width);
+  min-height: var(--chat-form-height);
+  z-index: 9999;
+}
+
+#chat-input-form {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto;
+
+  border-radius: calc(0.5 * var(--chat-form-height) + 2px);
+  padding: 8px;
+  z-index: 999;
+  outline: 1px solid #00000011;
+}
+
+#chat-input-form.multiline,
+#chat-input-form:has(#chat-files:not(:empty)) {
+  border-radius: calc(0.48 * var(--chat-form-height));
+}
+
+#chat-input-form button > img {
+  filter: var(--icon-filter);
+}
+
+#chat-files {
+  display: flex;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 0px 8px 8px 8px;
+}
+
+body[thinking] #chat-files {
+  opacity: 0;
+  padding: 0 8px;
+  height: 0;
+}
+
+#chat-files:empty {
+  padding: 0;
+}
+
+/* File pill styling */
+.file-pill:active,
+.file-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgb(from var(--fill-pill-background) r g b / 0.2);
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  max-width: 200px;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.file-pill:active {
+  padding: 6px 6px;
+}
+
+.file-pill-name {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.file-pill::after {
+  content: "×";
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+
+#chat-input-left-buttons {
+  display: flex;
+  align-items: center;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#chat-input-right-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  grid-column: 3;
+  grid-row: 2;
+}
+
+#chat-input-left-buttons,
+#chat-input-right-buttons {
+  min-width: calc(0.125 * var(--chat-form-height));
+}
+
+body:not([thinking]) #chat-input-form.multiline #chat-input-left-buttons,
+body:not([thinking]) #chat-input-form.multiline #chat-input-right-buttons {
+  grid-row: 3;
+}
+
+#chat-input {
+  /* Appearance */
+  grid-column: 2;
+  grid-row: 2;
+  width: 100%;
+  max-height: 30dvh;
+  resize: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: inherit;
+  background: none;
+  outline: none;
+  text-decoration: none;
+  -webkit-decoration: none;
+  -webkit-text-decoration: none;
+  box-shadow: none;         /* Removes internal embossed shadow */
+
+  /* Pointer event */
+  pointer-events: auto;
+  cursor: text;
+
+  /* Spacing */
+  margin: 0;
+  padding: 0 8px;
+  border: 0;
+
+  /* Typography */
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  
+  /* Vertical alignment */
+  align-self: center;
+}
+
+#chat-input::placeholder {
+  color: inherit;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+body:not([thinking]) #chat-input-form.multiline #chat-input {
+  grid-column: -1 / 1;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+#stop,
+#chat-menu-button,
+#send {
+  --blur-filter: none;
+  background: rgb(from var(--liquid-glass-background) r g b / 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--chat-form-height) - 16px);
+  aspect-ratio: 1/1;
+  border-radius: var(--border-radius-round);
+}
+
+#chat-menu-button {
+  font-size: 16px;
+  background: none;
+  border-radius: 0;
+}
+
+#chat-menu-button img {
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+}
+
+/* #chat-menu-button::before {
+  content: "︙";
+  color: var(--color) !important;
+} */
+
+/* #chat-input-container[menu-visible] #chat-menu-button::before {
+  transform: rotate(90deg);
+} */
+
+body:not([thinking]) #stop {
+  display: none;
+}
+
+body[thinking] #chat-input,
+body[thinking] #chat-menu-button {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+body[thinking] #send {
+  display: none;
+}
+
+#stop > div {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--color);
+}
+
+#chat-input-form[empty] #send {
+  opacity: 0.8;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+#chat-input-form[empty] #send > * {
+  opacity: 0.6;
+}
+
+#chat-menu {
+  position: absolute;
+  bottom: calc(var(--chat-form-height) + 8px);
+  left: calc(8px + 0.5 * (var(--chat-form-height) - 56px));
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+#chat-menu a {
+  width: 100%;
+}
+
+#chat-menu a,
+#chat-menu a:visited,
+#chat-menu a:active,
+#chat-menu a:link {
+  color: var(--color);
+}
+
+#chat-menu a,
+#chat-menu button {
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 400;
+  gap: 24px;
+}
+
+#chat-menu a > img,
+#chat-menu button  > img {
+  height: 16px;
+  aspect-ratio: 1 / 1;
+  filter: brightness(0) var(--icon-filter);
+}
+
+#chat-menu > :not(:first-child) {
+  border-top: 1px solid var(--menu-button-border-top-color);
+}
+
+#chat-input-container:not([menu-visible]) #chat-menu {
+  pointer-events: none;
+  transform: scale(0.8);
+  transform-origin: left bottom;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#chat-input-container:not([menu-visible]) #chat-menu * {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#chat-input-container:not([menu-visible]) #chat-input-form,
+body:has(#chat-input-container:not([menu-visible])) {
+  pointer-events: none;
+}
+
+/*
+ * =====================================================
+ * HOVER EFFECTS (DESKTOP ONLY)
+ * =====================================================
+ * Interactive feedback for devices with hover capability
+ */
+@media (hover: hover) and (pointer: fine), (-ms-high-contrast: active), (forced-colors: active) {
+  #chat-menu-button:hover {
+    opacity: 1;
+  }
+
+  #chat-menu > a,
+  #chat-menu > button {
+    opacity: 0.8;
+  }
+
+  #chat-menu > a:hover,
+  #chat-menu > button:hover {
+    opacity: 1;
+  }
+
+  #chat-menu-button:not(:hover) {
+    opacity: 0.5;
+  }
+
+  #chat-menu-text-us {
+    display: none;
+  }
+
+  .file-pill:hover {
+    opacity: 1;
+    background: rgb(from var(--fill-pill-background) r g b / 0.5);
+  }
+}
+
+/*
+ * =====================================================
+ * MOBILE
+ * =====================================================
+ * Interactive feedback for devices with hover capability
+ */
+@media only screen and (max-width: 740px) and (hover: none) and (pointer: coarse) {
+  #chat-menu a,
+  #chat-menu button,
+  #chat-input {
+    font-size: 16px;
+  }
+
+  #chat-menu a > img,
+  #chat-menu button  > img {
+    height: 18px;
+  }
+}
