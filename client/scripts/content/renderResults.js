@@ -3,6 +3,7 @@
 import { progressiveDisplay, instantDisplay } from "../progressiveDisplay.js";
 import { DOM } from "../cachedDomReferences.js";
 import { GLOBALS } from "../globals.js";
+import { safeMdToHtml } from "./safeMdToHtml.js";
 import { createResultOptions } from "./createResultOptions.js";
 import { onContentChange } from "./onContentChange.js";
 
@@ -165,7 +166,7 @@ const renderSection = (title, text, flag) => {
   );
   text && (
     elmt = document.createElement("template"),
-    elmt.innerHTML = mdToHtml(text),
+    elmt.innerHTML = safeMdToHtml(text),
     html.appendChild(elmt.content)
   );
 
@@ -217,7 +218,7 @@ const createOnContent = str => event => {
 
   // Add markdown to subtree.
   const template = document.createElement("template");
-  template.innerHTML = mdToHtml(str);
+  template.innerHTML = safeMdToHtml(str);
   newContent.appendChild(template.content);
 
   // Add back again at the end.
