@@ -13,7 +13,7 @@
     - All markdown inside string values must use \n for line breaks, not actual newlines.
     - Do NOT use unescaped double quotes inside string values — use \" instead.
     - If no job description is provided, set cover_letter_markdown to null.
-    - Do not use LaTeX formatting unless writing an actual equation.
+    - Do NOT use LaTeX formatting of any kind, ever. This includes \textbf{}, \n, $$, \[, \], \frac{}, or any backslash-based formatting. Use plain Markdown only: **bold**, _italic_, # headings, - bullets.
     - Output MUST start with { and end with }. Nothing else.
 
     <escaping_example>
@@ -33,6 +33,7 @@
       3. No markdown code fences wrap the output.
       4. Output starts with { and ends with }.
       5. Every required key in the output schema is present.
+      6. No LaTeX syntax anywhere in the output — no backslash commands, no $$ delimiters, no \[ \] math blocks.
     </self_validation>
   </critical_rules>
 
