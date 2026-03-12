@@ -20,6 +20,10 @@
   gap: 32px;
 }
 
+.chat-qa div.error img {
+  max-height: 18px; 
+}
+
 .chat-qa em,
 .chat-qa i {
   font-style: italic;
@@ -447,7 +451,49 @@
   filter: var(--icon-filter);
   padding: 0;
   margin: 0;
-  transform: rotate(-15deg)
+  transform: rotate(-10deg)
+}
+
+.chat-qa .liquid-glass.contact-us,
+.chat-qa .contact-us {
+  padding: 0 24px !important;
+  width: 100% !important;
+  min-height: 72px;
+  gap: 8px;
+  border-radius: var(--border-radius);
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.chat-qa .liquid-glass.contact-us > div,
+.chat-qa .contact-us > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.chat-qa .liquid-glass.contact-us > div > span:first-child,
+.chat-qa .contact-us > div > span:first-child {
+  font-size: 18px;
+}
+
+.chat-qa .liquid-glass.contact-us > div > span:last-child,
+.chat-qa .contact-us > div > span:last-child {
+  font-size: 14px;
+}
+
+.chat-qa .liquid-glass.contact-us img,
+.chat-qa .contact-us img {
+  border-radius: none;
+  padding: 0;
+  margin: 0;
+  object-fit: contain;
+  object-position: bottom;
+  max-height: 100px;
+  margin-top: 8px;
+  margin-bottom: -8px;
 }
 
 @media (hover: hover) and (pointer: fine), (-ms-high-contrast: active), (forced-colors: active) {
@@ -491,7 +537,13 @@
 
   .chat-qa .liquid-glass.file:hover img,
   .chat-qa .file:hover img {
-    transform: rotate(-5deg)
+    transform: rotate(-20deg)
+  }
+
+  .chat-qa .liquid-glass.contact-us:hover img,
+  .chat-qa .contact-us:hover img {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 
@@ -514,5 +566,10 @@
   .chat-qa button.suggestion,
   .chat-qa button.other {
     font-size: 16px;
+  }
+
+  .chat-qa .liquid-glass.contact-us > div,
+  .chat-qa .contact-us > div {
+    text-align: right;
   }
 }

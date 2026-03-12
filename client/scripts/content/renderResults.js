@@ -127,6 +127,9 @@ export const renderResults = data => {
       linkedin && html.appendChild(createFileButton("LinkedIn Improvements", `# LinkedIn Improvements\n\n**LinkedIn username:** [${linkedin}](${linkedin})\n\n${linkedin_improvements}`))
     );
 
+    // Expert.
+    html.appendChild(createContactUs());
+
     // Analysis.
     analysis && html.appendChild(renderSection("Analysis", analysis));
 
@@ -267,4 +270,14 @@ const createFileButton = (title, text) => {
   elmt.onclick = createOnContent(text);
 
   return elmt;
+}
+
+const createContactUs = () => {
+  const html = document.createElement("button");
+  html.setAttribute("class", "liquid-glass contact-us");
+  html.appendChild(document.createElement("img")).setAttribute("src", "../assets/expert.png");
+  const elmt = html.appendChild(document.createElement("div"));
+  elmt.appendChild(document.createElement("span")).textContent = "You've got the package. Let's get you the offer.";
+  elmt.appendChild(document.createElement("span")).textContent = "Talk to one of our HR experts";
+  return html;
 }
