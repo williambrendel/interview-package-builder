@@ -48,7 +48,7 @@ let node = null;
  * - Changing `text` on a repeat call has no effect unless `reuseNode` is
  *   `false`, since the cached template retains its original innerHTML.
  */
-export const createThinkingElement = (text = "Thinking…", reuseNode = true) => (
+export const createThinkingElement = (text = "Thinking… this may take a minute", reuseNode = true) => (
   node && reuseNode || (
     (node = document.createElement("template")).innerHTML = `<span class="thinking-loader"><b>●</b> ${text}</span>`
   ),
