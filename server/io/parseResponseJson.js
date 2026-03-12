@@ -4,11 +4,11 @@
  * @function parseResponseJson
  * @description
  * Parses a JSON string from a Claude API response, stripping markdown code fences
- * if present before parsing.
+ * if present and applying escape normalization fallbacks before parsing.
  *
- * Claude occasionally wraps JSON output in ` ```json ``` ` or ` ``` ``` ` fences.
- * This function normalises both forms before calling `JSON.parse`, so callers
- * do not need to handle fence-stripping themselves.
+ * Claude occasionally wraps JSON output in ` ```json ``` ` or ` ``` ``` ` fences,
+ * or emits literal newlines inside string values. This function normalises all
+ * known failure modes before calling `JSON.parse`.
  *
  * @param {string} text - Raw text from `response.output.text`.
  *
@@ -26,9 +26,21 @@
  * // → { key: "value" }
  */
 const parseResponseJson = text => {
-  const clean = text.replace(/^```(?:json)?\n?/m, "").replace(/\n?```$/m, "").trim();
+  let clean = text.replace(/^```(?:json)?\n?/m, "").replace(/\n?```$/m, "").trim();
+
+  const jsonMatch = clean.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+  if (jsonMatch) clean = jsonMatch[1];
+
+  // Pass 1 — try parsing as-is.
+  try { return JSON.parse(clean); } catch {}
+
+  // Pass 2 — escape literal newlines only inside string values.
   try {
-    return JSON.parse(clean);
+    const escaped = clean.replace(
+      /"((?:[^"\\]|\\.)*)"/gs,
+      (_, inner) => `"${inner.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t")}"`
+    );
+    return JSON.parse(escaped);
   } catch (err) {
     console.error(`❌ Failed to parse JSON:\n${clean.slice(0, 500)}`);
     throw err;

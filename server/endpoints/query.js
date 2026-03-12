@@ -110,7 +110,7 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
           const converted = await markitdown.convertBuffer(data, {
             file_extension: ext 
           });
-          (file.data = converted.markdown.toString("utf-8")) && ++j;
+          (file.data = converted.markdown.toString("utf-8").replace(/--\s*\d+\s+of\s+\d+\s*--/gi, "")) && ++j;
           // console.log("converted:", file.data);
           break;
         default:

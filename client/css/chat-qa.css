@@ -12,7 +12,7 @@
   width: 100%;
 }
 
-.chat-qa div.error {
+.chat-qa.error {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,8 +20,8 @@
   gap: 32px;
 }
 
-.chat-qa div.error img {
-  max-height: 18px; 
+.chat-qa.error img {
+  max-height: 32px; 
 }
 
 .chat-qa em,
@@ -399,6 +399,7 @@
   color: rgb(from var(--color) r g b / 0.7);
 }
 
+.chat-qa .spread-row .download,
 .chat-qa button.qa-back {
   gap: 8px;
   padding: 12px 12px !important;
@@ -410,6 +411,13 @@
 
 .chat-qa button.qa-back img {
   opacity: 0.7;
+}
+
+.chat-qa .spread-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Katex */
@@ -452,6 +460,18 @@
   padding: 0;
   margin: 0;
   transform: rotate(-10deg)
+}
+
+.chat-qa .liquid-glass.file span,
+.chat-qa .file span {
+  flex: 1;
+  text-align: left;
+}
+
+.chat-qa .liquid-glass.download,
+.chat-qa .download {
+  border-radius: var(--border-radius);
+  padding: 8px 12px;
 }
 
 .chat-qa .liquid-glass.contact-us,
@@ -520,6 +540,7 @@
     color: var(--color);
   }
 
+  .chat-qa .spread-row .download:hover,
   .chat-qa button.qa-back:hover {
     color: var(--color);
   }

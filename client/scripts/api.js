@@ -37,11 +37,26 @@ const BASE_URL = "http://localhost:3001";
  * thumbs-up / thumbs-down or similar rating signals sent after a query
  * has been answered.
  *
+ * @property {string} markdownUrl
+ * Endpoint for retrieving or submitting raw Markdown content.
+ *
+ * @property {string} convertUrl
+ * Endpoint for converting a Markdown string into a downloadable PDF binary
+ * stream. Accepts a `POST` request with a JSON body containing a `markdown`
+ * string field, and returns an `application/pdf` response.
+ *
  * @example
  * fetch(API.queryUrl, {
  *   method: "POST",
  *   headers: { "Content-Type": "application/json" },
  *   body: JSON.stringify({ query: "Hello" })
+ * });
+ *
+ * @example
+ * fetch(API.convertUrl, {
+ *   method: "POST",
+ *   headers: { "Content-Type": "application/json" },
+ *   body: JSON.stringify({ markdown: "# My Resume" })
  * });
  */
 export const API = {
@@ -49,4 +64,5 @@ export const API = {
   queryUrl: `${BASE_URL}/query`,
   feedbackUrl: `${BASE_URL}/feedback`,
   markdownUrl: `${BASE_URL}/markdown`,
-}
+  convertUrl: `${BASE_URL}/convert`,
+};

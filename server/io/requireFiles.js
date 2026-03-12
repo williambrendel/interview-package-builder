@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const fs = require("fs");
 const getFilenames = require("./getFilenames");
 
 // ---------------------------------------------------------------------------
@@ -47,7 +48,7 @@ const getFilenames = require("./getFilenames");
  *
  * @param {string}               dir                          - File or directory path to scan.
  * @param {RequireFilesOptions}  [options]                    - Load and filter options.
- * @param {Function}             [options.reject=console.error] - Error handler for failed requires.
+ * @param {Function}             [options.reject]             - Error handler for failed requires.
  * @param {number}               [options.modifiedTime]       - Maximum file age in ms.
  * @param {Set|Array|string}     [options.blacklist]          - Names to exclude.
  * @param {Set|Array|string}     [options.extensions]         - Allowed extensions.
@@ -81,7 +82,7 @@ const getFilenames = require("./getFilenames");
  * const modules = requireFiles("/app/routes", { reject: err => logger.warn(err) });
  */
 const requireFiles = (dir, {
-  reject = console.error,
+  reject,
   modifiedTime,
   blacklist,
   extensions,
@@ -113,16 +114,21 @@ const requireFiles = (dir, {
     ]), out, e;
 
     for (const p of paths) {
+      if (!fs.existsSync(p)) continue;
       try {
         out = require(p);
         out && output.push(out);
-        break;
-      } catch {}
+      } catch (err) {
+        // File exists but failed to load — report and stop trying other paths.
+        reject && reject(err);
+        console.error(err);
+      }
+      break; // either succeeded or failed — don't try other paths
     }
     out || (
       e = new Error(`Failed requiring:\n•  ${Array.from(paths).join("\n•  ")}`),
       reject && reject(e),
-      reject === console.error || console.error(e)
+      console.error(e)
     );
   }
   return output;

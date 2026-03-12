@@ -2,6 +2,7 @@
 
 import { progressiveDisplay, instantDisplay } from "../progressiveDisplay.js";
 import { DOM } from "../cachedDomReferences.js";
+import { API } from "../api.js";
 import { GLOBALS } from "../globals.js";
 import { safeMdToHtml } from "./safeMdToHtml.js";
 import { createResultOptions } from "./createResultOptions.js";
@@ -97,7 +98,15 @@ export const renderResults = data => {
     cover_letter = cover_letter_markdown,
     cover = cover_letter,
     linkedin_improvements,
-    linkedin
+    linkedin,
+    first_name,
+    first = first_name,
+    middle_name,
+    middle = middle_name,
+    last_name,
+    last = last_name,
+    full_name = [first, middle, last].filter(x => x).join(" "),
+    name = full_name
   } = data;
 
   // Result card.
@@ -119,23 +128,34 @@ export const renderResults = data => {
     html.appendChild(renderSection(text[Math.floor(Math.max(Math.random() * text.length - 0.0001, 0))], error));
   } else {
 
-    // Resume and other.
-    (resume || cover) && (
-      html.appendChild(renderSection("Interview Package")),
-      resume && html.appendChild(createFileButton("Resume", resume)),
-      cover && html.appendChild(createFileButton("Cover Letter", cover)),
-      summary && html.appendChild(createFileButton("Professional Summary", `# Professional Summary\n\n${summary}`)),
-      linkedin && html.appendChild(createFileButton("LinkedIn Improvements", `# LinkedIn Improvements\n\n**LinkedIn username:** [${linkedin}](${linkedin})\n\n${linkedin_improvements}`))
+    // Analysis, resume and other.
+    html.appendChild(renderSection("Let's Get You Hired"));
+    html.appendChild(document.createElement("h2")).textContent = `Hi ${name || "there"}!`;
+    html.appendChild(document.createElement("span")).textContent = "Everything you need to ace your interview is below. Want to go further? Talk to one of our HR experts for personalized coaching and offer negotiation support.";
+    html.appendChild(document.createElement("br"));
+    let analysisAndSuggestions = "", analysisAndSuggestionsTitle = "";
+    analysis && (
+      analysisAndSuggestions += `# Analysis\n\n${analysis}\n\n`,
+      analysisAndSuggestionsTitle += "Analysis"
     );
+    suggestions && (
+      analysisAndSuggestions += `# Suggestions\n\n${suggestions}`,
+      analysisAndSuggestionsTitle += analysisAndSuggestionsTitle && " & Suggestions" || "Suggestions"
+    );
+    analysisAndSuggestions && html.appendChild(createFileButton(analysisAndSuggestionsTitle, analysisAndSuggestions, `${analysisAndSuggestionsTitle.toLowerCase().replace(/[\s\&]+/g,"_")}.pdf`));
+    resume && html.appendChild(createFileButton("Resume", resume, "corrected_resume.pdf"));
+    cover && html.appendChild(createFileButton("Cover Letter", cover, "cover_letter.pdf"));
+    summary && html.appendChild(createFileButton("Professional Summary", `# Professional Summary\n\n${summary}`, "professional_summary.pdf"));
+    linkedin && html.appendChild(createFileButton("For LinkedIn", `# LinkedIn Improvements\n\n**LinkedIn username:** [${linkedin}](${linkedin})\n\n${linkedin_improvements}`, "for_linkedin.pdf"));
 
     // Expert.
     html.appendChild(createContactUs());
 
     // Analysis.
-    analysis && html.appendChild(renderSection("Analysis", analysis));
+    // analysis && html.appendChild(renderSection("Analysis", analysis));
 
     // Suggestions.
-    suggestions && html.appendChild(renderSection("Suggestions", suggestions));
+    // suggestions && html.appendChild(renderSection("Suggestions", suggestions));
 
     // Add options.
     // elmt = document.createElement("div");
@@ -173,7 +193,7 @@ const renderSection = (title, text, flag) => {
   return html;
 }
 
-const createOnContent = str => event => {
+const createOnContent = (str, filename) => event => {
   event.stopPropagation();
   event.preventDefault();
 
@@ -214,7 +234,13 @@ const createOnContent = str => event => {
     content.classList.remove("page-enter");
     content.classList.add("page-exit");
   }
-  newContent.appendChild(back);
+
+  const download = createDownloadButton(str, filename);
+  const row = document.createElement("div");
+  row.setAttribute("class", "spread-row");
+  row.appendChild(back);
+  row.appendChild(download);
+  newContent.appendChild(row);
 
   // Add markdown to subtree.
   const template = document.createElement("template");
@@ -223,7 +249,10 @@ const createOnContent = str => event => {
 
   // Add back again at the end.
   newContent.appendChild(document.createElement("br"));
-  newContent.appendChild(back.cloneNode(true)).onclick = back.onclick;
+  const bottomRow = row.cloneNode(true);
+  bottomRow.firstElementChild.onclick = back.onclick;
+  bottomRow.lastElementChild.onclick = download.onclick;
+  newContent.appendChild(bottomRow);
 
   content.onanimationend = event => {
     if (event.target !== content) return; // ignore bubbled events from children
@@ -258,7 +287,7 @@ const createOnContent = str => event => {
   content.classList.add("page-exit");
 }
 
-const createFileButton = (title, text) => {
+const createFileButton = (title, text, filename) => {
   typeof title === "object" && title && (
     text = title.text,
     title = title.title
@@ -268,15 +297,56 @@ const createFileButton = (title, text) => {
   elmt.setAttribute("class", "file liquid-glass");
   elmt.appendChild(document.createElement("img")).setAttribute("src", "../assets/icons/large-file.svg");
   elmt.appendChild(document.createElement("span")).textContent = title;
-  elmt.onclick = createOnContent(text);
+  elmt.appendChild(createDownloadButton(text, filename));
+  elmt.onclick = createOnContent(text, filename);
 
   return elmt;
 }
 
-const createContactUs = () => {
+const createDownloadButton = (md, filename) => {
+  const elmt = document.createElement("button");
+  elmt.textContent = "Download";
+  elmt.setAttribute("class", "liquid-glass download");
+  elmt.onclick = async event => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    try {
+      elmt.textContent = "Downloading...";
+      elmt.disabled = true;
+
+      const response = await fetch(API.convertUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ markdown: md })
+      });
+
+      if (!response.ok) throw new Error(`Failed to generate PDF: ${response.status}`);
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename || "resume.pdf";
+      a.click();
+      URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      elmt.textContent = "Download";
+      elmt.disabled = false;
+    }
+  };
+
+  return elmt;
+};
+
+const createContactUs = id => {
+  id === undefined && (id = Math.round(Math.random() * 6));
   const html = document.createElement("button");
   html.setAttribute("class", "liquid-glass contact-us");
-  html.appendChild(document.createElement("img")).setAttribute("src", "../assets/expert.png");
+  html.appendChild(document.createElement("img")).setAttribute("src", `../assets/expert-${id}.png`);
   const elmt = html.appendChild(document.createElement("div"));
   elmt.appendChild(document.createElement("span")).textContent = "You've got the package. Let's get you the offer.";
   elmt.appendChild(document.createElement("span")).textContent = "Talk to one of our HR experts";
