@@ -2,6 +2,7 @@
 
 import { createThinkingElement } from "./createThinkingElement.js";
 import { DOM } from "../cachedDomReferences.js";
+import { resize } from "./resize.js";
 
 // Destructure DOM elements.
 const { body, content } = DOM;
@@ -51,5 +52,6 @@ export const startThinking = text => (
   // Set the thinking state.
   body.setAttribute("thinking", ""),
   content.innerHTML = "",
-  content.appendChild(createThinkingElement(text))
+  content.appendChild(createThinkingElement(text)),
+  resize()
 );

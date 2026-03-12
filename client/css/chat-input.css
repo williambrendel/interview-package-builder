@@ -205,6 +205,10 @@ body[thinking] #chat-menu-button {
   visibility: hidden;
 }
 
+body[thinking] #chat-input-form.multiline #chat-input {
+  max-height: 21px;
+}
+
 body[thinking] #send {
   display: none;
 }
