@@ -597,5 +597,6 @@
   .chat-qa .download {
     pointer-events: none;
     visibility: hidden;
+    width: 0;
   }
 }
