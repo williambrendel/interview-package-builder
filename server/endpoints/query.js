@@ -130,17 +130,23 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
     // Try to scrap linkedin profile.
     let linkedin = new Set();
     for (const { data } of files) {
+      console.log(data);
       const usernames = extractLinkedInUsername(data);
       for (const username of usernames) linkedin.add(username);
     }
     linkedin = Array.from(linkedin);
     const linkedProfileMetadata = [];
-    for (const username of linkedin) linkedProfileMetadata.push(
-      extractProfileMetadata(await scrapMetatags(getProfileUrl(username)))
+    for (const username of linkedin) {
+      const meta = await scrapMetatags(getProfileUrl(username));
+      const profile = extractProfileMetadata(meta);
+      profile.username = username;
+      linkedProfileMetadata.push(profile);
+    }
+    linkedProfileMetadata.length && (
+      files.push({
+        data: `LinkedIn profile(s) to improve for better visibility: ${JSON.stringify(linkedProfileMetadata)}`
+      })
     );
-    linkedProfileMetadata.length && files.push({
-      data: `LinkedIn profile(s) to improve for better visibility: ${JSON.stringify(linkedProfileMetadata)}`
-    });
     console.log("linkedProfileMetadata:", linkedProfileMetadata);
 
     // Create config based on the complexity of the documents.
@@ -160,7 +166,12 @@ const query = createEndpoint("post", "/query", upload.array("files"), async (req
     // console.log(output);
 
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error, query: q, files: files.map(f => f.name) });
+    res.status(BAD_REQUEST).json({
+      error: error?.message || String(error),
+      stack: error?.stack,
+      query: q,
+      files: files.map(f => f.name)
+    });
     return;
   }
 

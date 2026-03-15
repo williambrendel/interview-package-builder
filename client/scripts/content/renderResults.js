@@ -143,7 +143,7 @@ export const renderResults = data => {
     resume && html.appendChild(createFileButton("Resume", resume, "corrected_resume.pdf"));
     cover && html.appendChild(createFileButton("Cover Letter", `# Cover Letter\n\n${cover}`, "cover_letter.pdf"));
     summary && html.appendChild(createFileButton("Professional Summary", `# Professional Summary\n\n${summary}`, "professional_summary.pdf"));
-    linkedin && html.appendChild(createFileButton("For LinkedIn", `# LinkedIn Improvements\n\n**LinkedIn username:** [${linkedin}](${linkedin})\n\n${linkedin_improvements}`, "for_linkedin.pdf"));
+    (linkedin || linkedin_improvements) && html.appendChild(createFileButton("For LinkedIn", `# LinkedIn Improvements\n\n**LinkedIn username:** [${linkedin}](${linkedin})\n\n${linkedin_improvements}`, "for_linkedin.pdf"));
 
     // Expert.
     html.appendChild(createContactUs());

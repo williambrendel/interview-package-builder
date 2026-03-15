@@ -49,8 +49,9 @@ export const createDownloadButton = (md, filename) => {
   const elmt = document.createElement("button");
   elmt.textContent = "Download";
   elmt.setAttribute("class", "liquid-glass download");
+  
   elmt.onclick = async event => {
-    const target = event.target;
+    const target = event.currentTarget; // Use currentTarget for better event stability
 
     event.stopPropagation();
     event.preventDefault();
@@ -70,13 +71,26 @@ export const createDownloadButton = (md, filename) => {
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
+      
+      // --- MOBILE FIXES START ---
+      a.style.display = "none";
       a.href = url;
       a.download = filename || "resume.pdf";
+      a.target = "_blank"; // Fix for some mobile webviews
+      
+      document.body.appendChild(a); // Must be in DOM for some mobile browsers
       a.click();
-      URL.revokeObjectURL(url);
+      
+      // Delay revocation: Mobile OS needs a moment to process the blob
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        a.remove();
+      }, 200); 
+      // --- MOBILE FIXES END ---
 
     } catch (error) {
       console.error(error);
+      alert("Mobile download failed. Please try again or check browser permissions.");
     } finally {
       target.textContent = "Download";
       target.disabled = false;

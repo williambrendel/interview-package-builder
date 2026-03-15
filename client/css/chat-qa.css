@@ -593,4 +593,9 @@
   .chat-qa .contact-us > div {
     text-align: right;
   }
+
+  .chat-qa .download {
+    pointer-events: none;
+    visibility: hidden;
+  }
 }

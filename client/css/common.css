@@ -8,8 +8,8 @@
 
 :root {
   /* -------------------- Colors -------------------- */
-  --color: #111;                       /* Main text color (dark gray) */
-  --background: #E4E6E7;               /* Main background color */
+  --color: #21211E;                       /* Main text color (dark gray) */
+  --background: #FAF9F6;               /* Main background color */
   --secondary-background: #FFFFFF;   /* Secondary background color */
   --link-color: #3DA5E0;               /* Hyperlink color (blue) */
   --liquid-glass-background: white;    /* chat bar and other buttons (transparent-white) */
@@ -72,8 +72,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Inverted colors for dark mode */
-    --color: #E4E6E7;            /* Light text on dark background */
-    --background: #111;          /* Dark background */
+    --color: #FAF9F6;            /* Light text on dark background */
+    --background: #21211E;          /* Dark background */
     --secondary-background: #000000;
     --icon-filter: invert(1);      /* Invert icons for visibility on dark background */
     --send: #FFFFFF33;
