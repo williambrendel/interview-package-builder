@@ -68,7 +68,7 @@ export const createFileButton = (title, text, filename) => {
   const elmt = document.createElement("button");
   elmt.setAttribute("class", "file liquid-glass");
   elmt.appendChild(document.createElement("img")).setAttribute("src", "../assets/icons/large-file.svg");
-  elmt.appendChild(document.createElement("span")).textContent = title;
+  elmt.appendChild(document.createElement("span")).textContent = `${title} ›`;
   elmt.appendChild(createDownloadButton(text, filename));
   elmt.onclick = createOnContent(text, filename);
 
