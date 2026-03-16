@@ -453,6 +453,24 @@
   justify-content: flex-start;
 }
 
+/* 
+ * =====================================================
+ * Dark Mode Support
+ * =====================================================
+ * Automatically switches colors based on user's system preference
+ */
+@media (prefers-color-scheme: dark) {
+  .chat-qa .liquid-glass.file,
+  .chat-qa .file {
+    background: rgb(from var(--liquid-glass-background) r g b / 0.01);
+  }
+
+  .chat-qa .liquid-glass.file button,
+  .chat-qa .liquid-glass.file a {
+    background: rgb(from var(--liquid-glass-background) r g b / 0.01);
+  }
+}
+
 .chat-qa .liquid-glass.file img,
 .chat-qa .file img {
   border-radius: none;
@@ -483,6 +501,8 @@
   border-radius: var(--border-radius);
   justify-content: flex-start;
   overflow: hidden;
+  background: rgb(from var(--liquid-glass-background) r g b / 0.01);
+
 }
 
 .chat-qa .liquid-glass.contact-us > div,

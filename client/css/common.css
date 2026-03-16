@@ -437,9 +437,9 @@ button,
     background: var(--liquid-glass-background-hover);
   }
 
-  a.liquid-glass:hover,
-  button.liquid-glass:hover,
-  .button.liquid-glass:hover,
+  a.liquid-glass:not(:has(button:hover, .button:hover, a:hover)):hover,
+  button.liquid-glass:not(:has(button:hover, .button:hover, a:hover)):hover,
+  .button.liquid-glass:not(:has(button:hover, .button:hover, a:hover)):hover,
   .liquid-glass > a:hover,
   .liquid-glass > button:hover,
   .liquid-glass > .button:hover {
