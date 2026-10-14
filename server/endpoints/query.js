@@ -19,9 +19,13 @@ const upload = multer({
   }
 });
 const { MarkItDown } = require("markitdown-ts");
-const run = require("../core/llms/claude");
-const printStatistics = require("../core/llms/printStatistics");
-const { HAIKU45_CONFIG, SONNET45_CONFIG, temperature } = require("../core/llms/claude/config");
+const run = require("llms/src/claude");
+const printStatistics = require("../core/printResponseStats");
+// SONNET45_CONFIG and OPUS4_CONFIG were deprecated aliases for retired
+// models and have been removed upstream; use the current presets directly.
+// The previously-destructured `temperature` was dead — line 155 sets its own
+// literal — and current models reject the parameter anyway.
+const { HAIKU55_CONFIG, SONNET55_CONFIG } = require("llms/src/claude/config");
 
 const PROMPT = fs.readFile(path.join(__dirname, "../prompts/create-resume.xml"), "utf-8");
 
@@ -184,7 +188,7 @@ const getConfig = (prompt, docs, threshold = 20000) => {
   const totalChars = (prompt || "").length
     + docs.reduce((sum, f) => sum + (typeof f.data === "string" ? f.data.length : 0), 0);
   console.log(`📄 Total input chars: ${totalChars} — using ${totalChars > threshold ? "Sonnet" : "Haiku"}`);
-  return totalChars > threshold ? SONNET45_CONFIG : HAIKU45_CONFIG;
+  return totalChars > threshold ? SONNET55_CONFIG : HAIKU55_CONFIG;
 };
 
 /**
