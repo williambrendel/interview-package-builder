@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "Q+A dataset generator for water and energy facts using Claude API",
   "main": "generateDataset.js",
-  "config": {
-    "server": "ec2-52-53-196-217.us-west-1.compute.amazonaws.com",
-    "key": "./secrets/ask-nereus-key.pem",
-    "user": "ubuntu"
-  },
   "scripts": {
     "generate": "node scripts/generateDataset.js",
     "generate-test": "node scripts/generateDataset.js './data/input/test/DC Water Facts 10 of 100 What causes fouling in heat exchangers 2.3.2026 gn.docx'",
@@ -23,9 +18,7 @@
     "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
     "verbose-test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --silent=false",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --silent=false",
-    "update": "npx npm-check-updates -u; npm update; npm install",
-    "sync": "rsync -avz --exclude 'node_modules' --exclude 'secrets' -e \"ssh -i $npm_package_config_key\" ./ $npm_package_config_user@$npm_package_config_server:~/dataset/",
-    "ssh": "ssh -i $npm_package_config_key $npm_package_config_user@$npm_package_config_server"
+    "update": "npx npm-check-updates -u; npm update; npm install"
   },
   "keywords": [
     "claude",
